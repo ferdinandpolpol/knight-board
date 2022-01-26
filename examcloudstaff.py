@@ -1,3 +1,6 @@
+import json
+from operator import itemgetter
+
 OBJECT_STATE = {}
 
 
@@ -137,8 +140,8 @@ class Knight(GridItem):
             item.position = self.position
             item.save_state()
         if alive_knight:
-            next_tile_knights.pop("type")
-            knight = Knight(**next_tile_knights)
+            next_tile_knights[0].pop("type")
+            knight = Knight(**next_tile_knights[0])
             self.attack_knight(knight)
 
         self.position = next_pos
@@ -213,8 +216,28 @@ def read_file():
 
 
 def finalize():
-    with open("final_state.json", "w"):
-        pass
+    with open("final_state.json", "w") as file:
+        final = {}
+        for res in OBJECT_STATE:
+            obj = OBJECT_STATE[res]
+            type = obj.get("type")
+            position = obj.get("position")
+            status = obj.get("status")
+            item = obj.get("item")
+            attack = obj.get("attack")
+            defence = obj.get("defence")
+            if type == "Knight":
+                final[res] = [position, status, item, attack, defence]
+            elif type == "Item":
+                item_equipped = any(
+                    [
+                        True if v.get("item") == res else False
+                        for k, v in OBJECT_STATE.items()
+                    ]
+                )
+
+                final[res] = [position, item_equipped]
+        file.write(json.dumps(final))
 
 
 GRID_SIZE = 8
