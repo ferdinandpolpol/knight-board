@@ -2,7 +2,7 @@
 Cloudstaff Exam
 
 ### Pre-requisites
-- Python
+- Python 3
 
 ### Usage
 - In the moves.txt, add movesets in between the `GAME-START` and `GAME-END` strings
