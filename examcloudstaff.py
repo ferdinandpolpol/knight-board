@@ -64,7 +64,6 @@ class Knight(GridItem):
                 continue
             grid_item = OBJECT_STATE[key]
             if grid_item.get("position") == position:
-                # TODO, items can be in multiple tiles
                 items_in_tile.append(grid_item)
         return items_in_tile
 
@@ -105,7 +104,18 @@ class Knight(GridItem):
         ]
 
         item_to_pick = None
-        tile_items = [item.get("name") for item in next_tile_item]
+        tile_items = []
+        for item in next_tile_item:
+            # make sure not to include already picked up items
+            item_equipped = any(
+                [
+                    True if v.get("item") == item.get("name") else False
+                    for k, v in OBJECT_STATE.items()
+                ]
+            )
+            if not item_equipped:
+                tile_items.append(item.get("name"))
+
         # Determine item inheritance
         if "axe" in tile_items:
             item_to_pick = [

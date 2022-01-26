@@ -15,3 +15,4 @@ Cloudstaff Exam
 - There are print statements to see a bit of logs on what happened on the board
 - There's also a visual grid on the logs after running the script
 - For state management, I was looking into using pickle but decided to use a GLOBAL variable that stores the object states
+- Some code can be moved to reusable functions, but needed to submit this ASAP
