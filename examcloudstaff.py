@@ -97,11 +97,6 @@ class Knight(GridItem):
         next_pos = self._get_next_position(move)
         next_tile_item = self.check_next_tile(next_pos)
 
-        # alive_knight = (
-        #     next_tile_item
-        #     and next_tile_item.get("type") == "Knight"
-        #     and next_tile_item.get("status") not in [self.DEAD, self.DROWNED]
-        # )
         next_tile_knights = [i for i in next_tile_item if i.get("type") == "Knight"]
 
         alive_knight = next_tile_knights and next_tile_knights[0].get("status") not in [
@@ -192,6 +187,7 @@ class Knight(GridItem):
 
 
 def visualize_grid(row, column):
+    # just a fun way of showing how the Knights have moved
     grid = []
     for i in range(row):
         grid.append(i)
@@ -202,6 +198,8 @@ def visualize_grid(row, column):
                 item = OBJECT_STATE[obj]
                 if item.get("position") == [i, j]:
                     grid[i][j] += item.get("name")[0]
+                    if item.get("type") == "Knight" and item.get("status") != "LIVE":
+                        grid[i][j] += "(x)"
 
     # print grid
     for row in grid:
@@ -244,6 +242,7 @@ GRID_SIZE = 8
 
 
 def __main__():
+    # Initialize the objects
     red = Knight("red", [0, 0])
     blue = Knight("blue", [7, 0])
     green = Knight("green", [7, 7])
@@ -262,33 +261,36 @@ def __main__():
             finalize()
             break
         else:
-            color, move = line.strip().split(":")
+            try:
+                color, move = line.strip().split(":")
 
-            if move not in ["N", "E", "W", "S"]:
-                print("invalid move, reading next")
+                if move not in ["N", "E", "W", "S"]:
+                    print("invalid move, reading next")
 
-            knight = None
-            knight_name = ""
-            if color == "R":
-                knight_name = "red"
-            elif color == "B":
-                knight_name = "blue"
-            elif color == "G":
-                knight_name = "green"
-            elif color == "Y":
-                knight_name = "yellow"
-            else:
-                print("invalid knight")
-                continue
+                knight = None
+                knight_name = ""
+                if color == "R":
+                    knight_name = "red"
+                elif color == "B":
+                    knight_name = "blue"
+                elif color == "G":
+                    knight_name = "green"
+                elif color == "Y":
+                    knight_name = "yellow"
+                else:
+                    print("invalid knight")
+                    continue
 
-            knight_state = OBJECT_STATE[knight_name]
-            knight_state.pop("type")
-            knight = Knight(**knight_state)
+                knight_state = OBJECT_STATE[knight_name]
+                knight_state.pop("type")
+                knight = Knight(**knight_state)
 
-            if knight.status == "LIVE":
-                knight.update_pos(move)
-            else:
-                print(f"Knight { knight.name } is not alive, invalid move")
+                if knight.status == "LIVE":
+                    knight.update_pos(move)
+                else:
+                    print(f"Knight { knight.name } is not alive, invalid move")
+            except ValueError:
+                print("ValueError, moving to next line")
 
 
 __main__()
