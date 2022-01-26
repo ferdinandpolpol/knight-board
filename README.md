@@ -6,7 +6,7 @@ Cloudstaff Exam
 
 ### Usage
 - In the moves.txt, add movesets in between the `GAME-START` and `GAME-END` strings
-- The format of the movesets should be <COLOR>:<DIRECTION>
+- The format of the movesets should be `<COLOR>:<DIRECTION>`
 - COLORS: `R,B,Y,G` (red, blue, yellow, green) and DIRECTIONS: `N,E,W,S` (north, east, west, south)
 - After adding desired move sets, run the `examcloudstaff.py` with `python examcloudstaff.py`
 - You should be able to see what happened to the Knights at final_state.json file
