@@ -263,6 +263,10 @@ def __main__():
             break
         else:
             color, move = line.strip().split(":")
+
+            if move not in ["N", "E", "W", "S"]:
+                print("invalid move, reading next")
+
             knight = None
             knight_name = ""
             if color == "R":
@@ -273,6 +277,9 @@ def __main__():
                 knight_name = "green"
             elif color == "Y":
                 knight_name = "yellow"
+            else:
+                print("invalid knight")
+                continue
 
             knight_state = OBJECT_STATE[knight_name]
             knight_state.pop("type")
