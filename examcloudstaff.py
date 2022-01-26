@@ -96,7 +96,16 @@ class Knight(GridItem):
         next_pos = self._get_next_position(move)
         next_tile_item = self.check_next_tile(next_pos)
 
-        next_tile_knights = [i for i in next_tile_item if i.get("type") == "Knight"]
+        next_tile_knights = [
+            knight
+            for knight in next_tile_item
+            if knight.get("type") == "Knight"
+            and knight.get("status")
+            not in [
+                self.DEAD,
+                self.DROWNED,
+            ]
+        ]
 
         alive_knight = next_tile_knights and next_tile_knights[0].get("status") not in [
             self.DEAD,
