@@ -78,11 +78,15 @@ class Knight(GridItem):
             knight.status = knight.DEAD
             knight.update_item(knight.position)
             knight.item = None
+            knight.attack = 0
+            knight.defence = 0
             knight.save_state()
         else:
             self.status = self.DEAD
             self.update_item(self.position)
             self.item = None
+            self.attack = 0
+            self.defence = 0
             self.save_state()
         print(
             f"ATTACKER { self.name } { self.status } DEFENDER { knight.name } - { knight.status }"
@@ -167,6 +171,8 @@ class Knight(GridItem):
         if any([pos >= GRID_SIZE or pos < 0 for pos in self.position]):
             print(f"{ self.name } DROWNED")
             self.status = self.DROWNED
+            self.attack = 0
+            self.defence = 0
             self.position = None
 
             # Drop item if knight has drowned
